@@ -22,7 +22,7 @@ const MainPage = () => {
       <S.TableWrapper>
         
         <Table
-          url="https://dochiapi.shop/api/list/top?type=likes"
+          url="/api/list/top?type=likes"
           row="좋아요 수"
         />
 
