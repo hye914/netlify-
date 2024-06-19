@@ -23,7 +23,7 @@ const ApiDetailPage = () => {
       body: JSON.stringify({ user_id: 1, api_id: parseInt(id) })
     };
 
-    fetch(`http://localhost:8080/api/like`, requestOptions)
+    fetch(`/api/like`, requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log("Like status changed:", data);
@@ -39,7 +39,7 @@ const ApiDetailPage = () => {
 
   useEffect(() => {
     // Fetch API details
-    fetch(`http://localhost:8080/api/data?api_id=${id}`)
+    fetch(`/api/data?api_id=${id}`)
       .then(response => response.json())
       .then(data => {
         setApiDetail(data.data);
@@ -50,7 +50,7 @@ const ApiDetailPage = () => {
       });
 
     // Fetch like list
-    fetch(`http://localhost:8080/api/like/list?user_id=1`)
+    fetch(`/api/like/list?user_id=1`)
       .then(response => response.json())
       .then(data => {
         const likedApi = data.result.find(item => item.api_id === parseInt(id));
@@ -63,7 +63,7 @@ const ApiDetailPage = () => {
       });
 
     // Fetch questions
-    fetch(`http://localhost:8080/api/forums?type=question&api_id=${id}`)
+    fetch(`/api/forums?type=question&api_id=${id}`)
       .then(response => response.json())
       .then(data => {
         const questionTitles = data.result.slice(0, 3).map(question => question.title);
