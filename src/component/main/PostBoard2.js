@@ -11,7 +11,7 @@ const PostBoard2 = ({ url }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/forums/top?type=general")
+      .get("/api/forums/top?type=general")
       .then((response) => {
         setData(response.data.result);
         setLoading(false);

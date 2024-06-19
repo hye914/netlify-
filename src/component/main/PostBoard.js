@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import instance from "../../axios/instance.js";
+
 import { Card, Board, Header, BoardContainer } from "./Style";
 
-const PostBoard2 = ({ url }) => {
+const PostBoard2 = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/forums/top?type=question")
+    instance
+      .get("/api/forums/top?type=question")
       .then((response) => {
         setData(response.data.result);
         setLoading(false);
