@@ -19,7 +19,10 @@ const ApiDetailPage = () => {
     
     const requestOptions = {
       method: newIsLiked ? 'POST' : 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        Accept: "application/json", // Accept 헤더 추가
+      },
       body: JSON.stringify({ user_id: 1, api_id: parseInt(id) })
     };
 
@@ -39,7 +42,11 @@ const ApiDetailPage = () => {
 
   useEffect(() => {
     // Fetch API details
-    fetch(`/api/data?api_id=${id}`)
+    fetch(`/api/data?api_id=${id}`, {
+      headers: {
+        Accept: "application/json", // Accept 헤더 추가
+      }
+    })
       .then(response => response.json())
       .then(data => {
         setApiDetail(data.data);
@@ -50,7 +57,11 @@ const ApiDetailPage = () => {
       });
 
     // Fetch like list
-    fetch(`/api/like/list?user_id=1`)
+    fetch(`/api/like/list?user_id=1`, {
+      headers: {
+        Accept: "application/json", // Accept 헤더 추가
+      }
+    })
       .then(response => response.json())
       .then(data => {
         const likedApi = data.result.find(item => item.api_id === parseInt(id));
@@ -63,7 +74,11 @@ const ApiDetailPage = () => {
       });
 
     // Fetch questions
-    fetch(`/api/forums?type=question&api_id=${id}`)
+    fetch(`/api/forums?type=question&api_id=${id}`, {
+      headers: {
+        Accept: "application/json", // Accept 헤더 추가
+      }
+    })
       .then(response => response.json())
       .then(data => {
         const questionTitles = data.result.slice(0, 3).map(question => question.title);
