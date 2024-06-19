@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import instance from "../../axios/instance";
+import instance from "../../axios/instance.js";
 import { StyledTable, Th, Td, TdFavi } from "./Style";
 
 const Table = ({ url, row }) => {

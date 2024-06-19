@@ -54,7 +54,7 @@ export const BannerContainer = styled.div`
   justify-content: space-between; // 내부 요소들 사이의 간격을 균등하게 조정
   align-items: center;
   margin: 50px auto; 
-  width: 60%; 
+  width: 80%; 
   height: 100px; 
   background: linear-gradient(to left, #3F6CDF, #7B87FF);
 `;
