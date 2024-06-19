@@ -16,7 +16,7 @@ const Table = ({ url, row }) => {
       setLoading(true);
       setError(null);
       console.log("Request URL:", url); 
-
+      console.log(instance); 
       try {
         const response = await instance.get(url);
         setData(response.data.result);
