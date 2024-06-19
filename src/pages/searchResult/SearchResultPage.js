@@ -4,6 +4,7 @@ import ApiCard from "../../component/searchResult/ApiCard";
 import DetailedView from "../searchResult/DetailResult";
 import * as S from "./Style";
 import SearchBar from "../../component/common/SearchBar";
+import instance from "../../axios/instance";
 
 const SearchResultPage = () => {
   const location = useLocation();
@@ -16,24 +17,23 @@ const SearchResultPage = () => {
   const resultMessage =
     location.state?.resultMessage || "전체 API를 검색한 결과";
 
-    useEffect(() => {
-      fetch(`${endpoint}?sort=likes&page=${currentPage}`, { // 페이지 번호 추가
-        headers: {
-          Accept: "application/json", // Accept 헤더 추가
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(endpoint);
-          console.log(data);
-          setApiData(data.result);
-          setTotalPages(data.totalPages); // 총 페이지 수 설정
-        })
-        .catch((error) => {
-          console.error("Error fetching data: ", error);
-          setApiData([]);
-        });
-    }, [endpoint, currentPage]);
+  useEffect(() => {
+    instance.get(`${endpoint}?sort=likes&page=${currentPage}`, {
+      headers: {
+        Accept: "application/json", // Accept 헤더 추가
+      },
+    })
+    .then((response) => {
+      console.log(endpoint);
+      console.log(response.data);
+      setApiData(response.data.result);
+      setTotalPages(response.data.totalPages); // 총 페이지 수 설정
+    })
+    .catch((error) => {
+      console.error("Error fetching data: ", error);
+      setApiData([]);
+    });
+  }, [endpoint, currentPage]);
 
   const handleApiClick = (api) => {
     setSelectedApi(api);
