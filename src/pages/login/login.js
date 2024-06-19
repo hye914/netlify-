@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import * as S from './loginStyle';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../component/user/UserContext';
+import instance from '../../axios/instance';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/login/localLogin', {
+      const response = await instance.post('/api/login/localLogin', {
         user_email: email,
         user_password: password,
       });
