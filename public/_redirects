@@ -1,0 +1,3 @@
+/api/* https://dochiapi.shop/:splat 200
+
+/*  /index.html  200

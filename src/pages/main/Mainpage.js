@@ -27,7 +27,7 @@ const MainPage = () => {
         />
 
         <Table
-          url="https://dochiapi.shop/api/list/top?type=views"
+          url="/api/list/top?type=views"
           row="조회 수"
         />
       </S.TableWrapper>
