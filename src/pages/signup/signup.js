@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import * as S from './signupStyle';
+import instance from '../../axios/instance'; 
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/login/localSignup', {
+      const response = await instance.post('/login/localSignup', {
         user_email: email,
         user_name: username,
         user_password: password,

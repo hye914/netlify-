@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import SearchBar from "../../component/common/SearchBar";
 import * as S from './postAPIStyle';
+import instance from '../../axios/instance';
 
 const PostAPI = () => {
   const categories = ["AI", "IT", "SNS", "건강", "게임", "과학", "교육", "교통", "금융", "날씨", "뉴스 & 미디어", "부동산", "비디오 & 이미지", "쇼핑", "스포츠", "식음료", "에너지", "여행", "예술 & 엔터테인먼트", "기타"];
@@ -192,7 +192,7 @@ const PostAPI = () => {
   
       console.log("Request Body: ", requestBody); // 요청 본문을 콘솔에 출력하여 확인
   
-      const response = await axios.post('http://localhost:8080/api/data', requestBody, {
+      const response = await instance.post('/api/data', requestBody, {
         headers: {
           'Content-Type': 'application/json'
         }

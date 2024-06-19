@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import SearchBar from "../../component/common/SearchBar";
 import * as S from './readFreeStyle';
-import axios from 'axios';
+import instance from '../../axios/instance';
 
 const ReadFree = () => {
   const { postId } = useParams();
@@ -27,7 +27,7 @@ const ReadFree = () => {
 
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/general?forum_id=1&general_id=${postId}`);
+        const response = await instance.get(`/api/general?forum_id=1&general_id=${postId}`);
         if (response.data.code === 200) {
           setPost(response.data.result);
         } else {
@@ -44,7 +44,7 @@ const ReadFree = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/general/comment?forum_id=1&general_id=${postId}`);
+        const response = await instance.get(`/api/general/comment?forum_id=1&general_id=${postId}`);
         if (response.data.code === 200) {
           setComments(response.data.result);
         } else {
@@ -64,7 +64,7 @@ const ReadFree = () => {
 
   const handleDeletePost = async () => {
     try {
-      const response = await axios.delete(`http://localhost:8080/api/general?forum_id=1&general_id=${postId}`);
+      const response = await instance.delete(`/api/general?forum_id=1&general_id=${postId}`);
       if (response.data.code === 200) {
         alert(response.data.message);
         navigate('/board');
@@ -96,7 +96,7 @@ const ReadFree = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:8080/api/general/comment?forum_id=1&general_id=${postId}`, {
+      const response = await instance.post(`/api/general/comment?forum_id=1&general_id=${postId}`, {
         user_id: userId,
         content: newCommentContent,
       });
@@ -133,7 +133,7 @@ const ReadFree = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:8080/api/general/comment?comment_id=${editingCommentId}`, {
+      const response = await instance.put(`/api/general/comment?comment_id=${editingCommentId}`, {
         content: newCommentContent,
       });
 
@@ -154,7 +154,7 @@ const ReadFree = () => {
 
   const handleCommentDelete = async (commentId) => {
     try {
-      const response = await axios.delete(`http://localhost:8080/api/general/comment?comment_id=${commentId}`);
+      const response = await instance.delete(`/api/general/comment?comment_id=${commentId}`);
       if (response.data.code === 200) {
         setComments(comments.filter(comment => comment.id !== commentId));
         alert(response.data.message);

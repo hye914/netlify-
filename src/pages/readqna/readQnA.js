@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import SearchBar from "../../component/common/SearchBar";
 import * as S from './readQnAStyle';
-import axios from 'axios';
+import instance from '../../axios/instance';
 
 const ReadQnA = () => {
   const { postId } = useParams();
@@ -21,7 +21,7 @@ const ReadQnA = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/question?forum_id=1&question_id=${postId}`);
+        const response = await instance.get(`/api/question?forum_id=1&question_id=${postId}`);
         if (response.data.code === 200) {
           setPost(response.data.result);
         } else {
@@ -38,7 +38,7 @@ const ReadQnA = () => {
   useEffect(() => {
     const fetchAnswers = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/question/comment?forum_id=1&question_id=${postId}`);
+        const response = await instance.get(`/api/question/comment?forum_id=1&question_id=${postId}`);
         if (response.data.code === 200) {
           setAnswers(response.data.result);
         } else {
@@ -58,7 +58,7 @@ const ReadQnA = () => {
 
   const handleDeletePost = async () => {
     try {
-      const response = await axios.delete(`http://localhost:8080/api/question?forum_id=1&question_id=${postId}`);
+      const response = await instance.delete(`/api/question?forum_id=1&question_id=${postId}`);
       if (response.data.code === 200) {
         alert(response.data.message);
         navigate('/board');
@@ -88,7 +88,7 @@ const ReadQnA = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:8080/api/question/comment?forum_id=1&question_id=${postId}`, {
+      const response = await instance.post(`/api/question/comment?forum_id=1&question_id=${postId}`, {
         user_id: userId,
         content: newAnswerContent,
       });
@@ -126,7 +126,7 @@ const ReadQnA = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:8080/api/question/comment?comment_id=${editingAnswerId}`, {
+      const response = await instance.put(`/api/question/comment?comment_id=${editingAnswerId}`, {
         content: newAnswerContent,
       });
 
@@ -148,7 +148,7 @@ const ReadQnA = () => {
 
   const handleAnswerDelete = async (answerId) => {
     try {
-      const response = await axios.delete(`http://localhost:8080/api/question/comment?comment_id=${answerId}`);
+      const response = await instance.delete(`/api/question/comment?comment_id=${answerId}`);
       if (response.data.code === 200) {
         setAnswers(answers.filter(answer => answer.id !== answerId));
         alert(response.data.message);
@@ -163,7 +163,7 @@ const ReadQnA = () => {
 
   const handleAcceptAnswer = async (answerId) => {
     try {
-      const response = await axios.put(`http://localhost:8080/api/question/comment/accept?comment_id=${answerId}`);
+      const response = await instance.put(`/api/question/comment/accept?comment_id=${answerId}`);
       if (response.data.code === 200) {
         setAnswers(answers.map(answer =>
           answer.id === answerId ? { ...answer, isAccepted: true } : answer
