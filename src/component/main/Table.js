@@ -18,7 +18,9 @@ const Table = ({ url, row }) => {
       console.log("Request URL:", url); 
       console.log(instance); 
       try {
-        const response = await instance.get(url);
+        const response = await instance.get(url,{
+          withCredentials: true
+        })
         setData(response.data.result);
         console.log("Fetched data:", response.data.result);
       } catch (error) {
