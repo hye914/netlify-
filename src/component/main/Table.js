@@ -4,39 +4,39 @@ import axios from "axios";
 import { StyledTable, Th, Td, TdFavi } from "./Style";
 
 const Table = ({ url, row }) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const defaultFavicon = "/img/hedgehog.png"; 
 
   useEffect(() => {
+
     const fetchData = async () => {
       setLoading(true);
       setError(null);
-
       try {
         const response = await axios.get(url);
-
-        if (Array.isArray(response.data.result)) {
-          setData(response.data.result);
-          console.log("Fetched data:", response.data.result);
-        } else {
-          console.error("Unexpected response data format:", response.data);
-          setError("Unexpected response data format.");
-        }
+        setData(response.data.result);
+        console.log("Fetched data:", response.data.result);
       } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생:", error);
+        console.log(error.response);
+        
+        let errorMessage = "서버에서 데이터를 불러오는 데 실패했습니다. 나중에 다시 시도해 주세요.";
+
         if (error.response) {
-          // 서버가 상태 코드를 반환했지만 범위가 2xx가 아님
-          console.error("서버 응답 오류:", error.response);
-          setError(`서버 오류: ${error.response.status} ${error.response.statusText}`);
+          // 서버가 응답했지만 상태 코드가 2xx 범위를 벗어나는 경우
+          errorMessage += ` (HTTP ${error.response.status}: ${error.response.statusText})`;
         } else if (error.request) {
-          // 요청이 만들어졌으나 응답을 받지 못함
-          console.error("응답을 받지 못했습니다:", error.request);
-          setError("서버에서 응답을 받지 못했습니다. 네트워크 상태를 확인해 주세요.");
+          // 요청이 만들어졌지만 응답을 받지 못한 경우
+          errorMessage += " (서버에서 응답이 없습니다.)";
         } else {
-          // 요청 설정 중에 오류가 발생
-          console.error("요청 오류:", error.message);
-          setError(`요청 오류: ${error.message}`);
+          // 요청을 설정하는 중에 오류가 발생한 경우
+          errorMessage += ` (요청 오류: ${error.message})`;
         }
+
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -45,13 +45,23 @@ const Table = ({ url, row }) => {
     fetchData();
   }, [url]);
 
+
   if (loading) {
     return <div>로딩 중...</div>;
   }
 
   if (error) {
-    return <div>데이터를 가져오는 중 오류가 발생했습니다: {error}</div>;
+    return (
+      <div>
+        <p>{error}</p>
+        <pre>{error.toString()}</pre>
+      </div>
+    );
   }
+
+  const handleRowClick = (id) => {
+    navigate(`/api-details/${id}`);
+  };
 
   return (
     <StyledTable>
@@ -89,3 +99,5 @@ const Table = ({ url, row }) => {
 };
 
 export default Table;
+
+
