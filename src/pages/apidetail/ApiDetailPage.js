@@ -5,9 +5,11 @@ import {
   Container, Table, Thead, Tbody, Tr, Th, Td
 } from "./style";  
 import SearchBar from "../../component/common/SearchBar";
+import instance from "../../axios/instance";
 
 const ApiDetailPage = () => {
   const { id } = useParams();
+  const [userId, setUserId] = useState(null); // userId 상태 추가
   const [apiDetail, setApiDetail] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [selected, setSelected] = useState(null);
@@ -23,13 +25,12 @@ const ApiDetailPage = () => {
         'Content-Type': 'application/json',
         Accept: "application/json", // Accept 헤더 추가
       },
-      body: JSON.stringify({ user_id: 1, api_id: parseInt(id) })
+      data: JSON.stringify({ user_id: userId, api_id: parseInt(id) }) // userId 사용
     };
 
-    fetch(`/api/like`, requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        console.log("Like status changed:", data);
+    instance(`/api/like`, requestOptions)
+      .then(response => {
+        console.log("Like status changed:", response.data);
       })
       .catch(error => {
         console.error("Error updating like status:", error);
@@ -41,15 +42,27 @@ const ApiDetailPage = () => {
   };
 
   useEffect(() => {
-    // Fetch API details
-    fetch(`/api/data?api_id=${id}`, {
+    // Fetch user ID
+    instance.get(`/api/users`, {
       headers: {
         Accept: "application/json", // Accept 헤더 추가
       }
     })
-      .then(response => response.json())
-      .then(data => {
-        setApiDetail(data.data);
+      .then(response => {
+        setUserId(response.data.result.user_id);
+      })
+      .catch(error => {
+        console.error("Error fetching user ID:", error);
+      });
+
+    // Fetch API details
+    instance.get(`/api/data?api_id=${id}`, {
+      headers: {
+        Accept: "application/json", // Accept 헤더 추가
+      }
+    })
+      .then(response => {
+        setApiDetail(response.data.data);
       })
       .catch(error => {
         console.error("Error fetching API details:", error);
@@ -57,37 +70,37 @@ const ApiDetailPage = () => {
       });
 
     // Fetch like list
-    fetch(`/api/like/list?user_id=1`, {
-      headers: {
-        Accept: "application/json", // Accept 헤더 추가
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        const likedApi = data.result.find(item => item.api_id === parseInt(id));
-        if (likedApi) {
-          setIsLiked(true);
+    if (userId) {
+      instance.get(`/api/like/list?user_id=${userId}`, {
+        headers: {
+          Accept: "application/json", // Accept 헤더 추가
         }
       })
-      .catch(error => {
-        console.error("Error fetching like list:", error);
-      });
+        .then(response => {
+          const likedApi = response.data.result.find(item => item.api_id === parseInt(id));
+          if (likedApi) {
+            setIsLiked(true);
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching like list:", error);
+        });
+    }
 
     // Fetch questions
-    fetch(`/api/forums?type=question&api_id=${id}`, {
+    instance.get(`/api/forums?type=question&api_id=${id}`, {
       headers: {
         Accept: "application/json", // Accept 헤더 추가
       }
     })
-      .then(response => response.json())
-      .then(data => {
-        const questionTitles = data.result.slice(0, 3).map(question => question.title);
+      .then(response => {
+        const questionTitles = response.data.result.slice(0, 3).map(question => question.title);
         setQuestions(questionTitles);
       })
       .catch(error => {
         console.error("Error fetching questions:", error);
       });
-  }, [id]);
+  }, [id, userId]); // userId 추가
 
   const handleEndpointClick = (endpoint) => {
     setSelected(endpoint);
