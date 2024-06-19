@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import instance from "../../axios/instance.js";
 import { Card, Board, Header, BoardContainer } from "./Style";
 
 const PostBoard2 = ({ url }) => {
@@ -10,7 +10,7 @@ const PostBoard2 = ({ url }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
+    instance
       .get("/api/forums/top?type=general")
       .then((response) => {
         setData(response.data.result);
