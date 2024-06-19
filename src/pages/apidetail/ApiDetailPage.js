@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import * as S from "./style";
 import {
   Container, Table, Thead, Tbody, Tr, Th, Td
-} from "./style";  // Assuming style.js is in the same directory
+} from "./style";  
 import SearchBar from "../../component/common/SearchBar";
 
 const ApiDetailPage = () => {
