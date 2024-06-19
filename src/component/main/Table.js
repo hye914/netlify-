@@ -15,6 +15,8 @@ const Table = ({ url, row }) => {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
+      console.log("Request URL:", url); 
+      
       try {
         const response = await axios.get(url);
         setData(response.data.result);
@@ -22,7 +24,7 @@ const Table = ({ url, row }) => {
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
         console.log(error.response);
-        
+
         let errorMessage = "서버에서 데이터를 불러오는 데 실패했습니다. 나중에 다시 시도해 주세요.";
 
         if (error.response) {

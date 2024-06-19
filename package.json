@@ -41,8 +41,9 @@
     ]
   },
   "@babel/plugin-proposal-private-property-in-object": "^1.0.6",
-  "proxy": "https://dochiapi.shop",
+  
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
-  }
+  },
+  "proxy": "https://dochiapi.shop"
 }
