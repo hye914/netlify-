@@ -16,20 +16,24 @@ const SearchResultPage = () => {
   const resultMessage =
     location.state?.resultMessage || "전체 API를 검색한 결과";
 
-  useEffect(() => {
-    fetch(`${endpoint}?sort=likes&page=${currentPage}`) // 페이지 번호 추가
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(endpoint);
-        console.log(data);
-        setApiData(data.result);
-        setTotalPages(data.totalPages); // 총 페이지 수 설정
+    useEffect(() => {
+      fetch(`${endpoint}?sort=likes&page=${currentPage}`, { // 페이지 번호 추가
+        headers: {
+          Accept: "application/json", // Accept 헤더 추가
+        },
       })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setApiData([]);
-      });
-  }, [endpoint, currentPage]); 
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(endpoint);
+          console.log(data);
+          setApiData(data.result);
+          setTotalPages(data.totalPages); // 총 페이지 수 설정
+        })
+        .catch((error) => {
+          console.error("Error fetching data: ", error);
+          setApiData([]);
+        });
+    }, [endpoint, currentPage]);
 
   const handleApiClick = (api) => {
     setSelectedApi(api);
