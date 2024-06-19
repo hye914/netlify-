@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
   SearchBarContainer,
@@ -9,6 +8,8 @@ import {
   Icon,
 } from "./Style";
 import { FaSearch } from "react-icons/fa";
+import instance from "../../axios/instance.js";
+
 
 const SearchBar = ({ isDetailActive }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,8 +17,8 @@ const SearchBar = ({ isDetailActive }) => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.post(
-        `http://localhost:8080/api/list/search`,
+      const response = await instance.post(
+        `/api/list/search`,
         { search: searchTerm }
       );
       const result = response.data.result;

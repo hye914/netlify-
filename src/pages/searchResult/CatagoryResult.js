@@ -4,6 +4,7 @@ import ApiCard from "../../component/searchResult/ApiCard";
 import DetailedView from "../searchResult/DetailResult";
 import * as S from "./Style";
 import SearchBar from "../../component/common/SearchBar";
+import instance from "../../axios/instance"
 
 const CategoryResultPage = () => {
   const location = useLocation();

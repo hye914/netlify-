@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaHeartbeat, FaGamepad, FaMicroscope, FaGraduationCap, FaCar, FaChartLine, FaCloudSun, FaNewspaper, FaHome, FaShoppingCart, FaBasketballBall, FaHamburger, FaBolt, FaPaintBrush, FaPlane, FaMicrochip, FaInstagram, FaLaptopCode, FaEllipsisH, FaVideo } from 'react-icons/fa';
 import { CategoryContainer, CategoryItem, IconLabel, IconBox } from './Style';
-import axios from 'axios';
+import instance from "../../axios/instance.js";
 
 const categories = [
   { icon: <FaHeartbeat />, label: "건강", id: 1 },
@@ -32,7 +32,7 @@ const CategoryIcons = () => {
 
   const handleCategoryClick = async (id, label) => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/list?categoryId=${id}`);
+      const response = await instance.get(`/api/list?categoryId=${id}`);
       const data = response.data;
       const result = data.result; // JSON 응답에서 result 배열 추출
       const totalPages = data.totalPages; // JSON 응답에서 totalPages 값 추출

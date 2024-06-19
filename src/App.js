@@ -16,6 +16,7 @@ import Board from "./pages/board/board";
 import MyPagePost from "./pages/mypage/mypagePost";
 import InputResultPage from "../src/pages/searchResult/InputResultPage";
 import { UserProvider } from "./component/user/UserContext";
+import CategoryResultPage from "./pages/searchResult/CatagoryResult"
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
               <Route path="/readQnA/:postId" element={<ReadQnA />} />
               <Route path="/mypage/postdetail" element={<MyPagePost />} />
               <Route path="/search-results" element={<InputResultPage />} />
+              <Route path="/category-result" element={<CategoryResultPage />} />
             </Routes>
           </div>
         </div>
