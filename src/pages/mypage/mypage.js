@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ApiCard from "../../component/searchResult/ApiCard";
 import Cookies from "js-cookie";
+import instance from "../../axios/instance";
 
 const MyPage = () => {
   const [userData, setUserData] = useState(null);
@@ -15,18 +16,20 @@ const MyPage = () => {
   const [general, setGeneral] = useState([]);
   const [error, setError] = useState(null);
 
-  const userId = Cookies.get('user_id');
-  const userEmail = Cookies.get('user_email');
+  const userId = Cookies.get("user_id");
+  const userEmail = Cookies.get("user_email");
 
-  const likeEndpoint = `http://localhost:8080/api/like/list?user_id=${userId}`;
-  const enrollEndpoint = `http://localhost:8080/api/list?user_id=${userId}`;
-  const questionEndpoint = `http://localhost:8080/api/forums?type=question&user_id=${userId}`;
-  const generalEndpoint = `http://localhost:8080/api/forums?type=general&user_id=${userId}`;
+  axios.defaults.withCredentials = true;
+
+  const likeEndpoint = `/api/like/list?user_id=${userId}`;
+  const enrollEndpoint = `/api/list?user_id=${userId}`;
+  const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
+  const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/users?user_email=${userEmail}`);
+        const response = await instance.get(`/api/users`);
         setUserData(response.data.result);
       } catch (err) {
         setError("An error occurred while fetching data");
@@ -35,7 +38,7 @@ const MyPage = () => {
 
     const fetchLikedApis = async () => {
       try {
-        const response = await axios.get(likeEndpoint);
+        const response = await instance.get(likeEndpoint);
         setLikedApis(response.data.result.slice(0, 4));
       } catch (err) {
         setError("An error occurred while fetching liked APIs");
@@ -44,7 +47,7 @@ const MyPage = () => {
 
     const fetchEnrollApis = async () => {
       try {
-        const response = await axios.get(enrollEndpoint);
+        const response = await instance.get(enrollEndpoint);
         setEnrollApis(response.data.result.slice(0, 4)); // Get only first 4 items
       } catch (err) {
         setError("An error occurred while fetching liked APIs");
@@ -53,7 +56,7 @@ const MyPage = () => {
 
     const fetchGeneral = async () => {
       try {
-        const response = await axios.get(generalEndpoint);
+        const response = await instance.get(generalEndpoint);
         setGeneral(response.data.result.slice(0, 4));
       } catch (err) {
         setError("An error occurred while fetching general");
@@ -62,7 +65,7 @@ const MyPage = () => {
 
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get(questionEndpoint);
+        const response = await instance.get(questionEndpoint);
         setQuestions(response.data.result.slice(0, 4)); // Get only first 4 items
       } catch (err) {
         setError("An error occurred while fetching questions");
@@ -74,7 +77,13 @@ const MyPage = () => {
     fetchLikedApis();
     fetchEnrollApis();
     fetchQuestions();
-  }, [likeEndpoint, enrollEndpoint, generalEndpoint, questionEndpoint, userEmail]);
+  }, [
+    likeEndpoint,
+    enrollEndpoint,
+    generalEndpoint,
+    questionEndpoint,
+    userEmail,
+  ]);
 
   const navigate = useNavigate();
 

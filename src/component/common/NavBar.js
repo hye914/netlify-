@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useContext } from "react"; // Import useContext
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import instance from "../../axios/instance";
 import {
   NavBarContainer,
   MenuItem,
@@ -21,8 +22,8 @@ import {
   FaInfoCircle,
   FaUserCircle,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from '../../component/user/UserContext'; // Import UserContext
+import { redirect, useNavigate } from "react-router-dom";
+import { UserContext } from "../../component/user/UserContext"; // Import UserContext
 
 const NavBar = () => {
   const { user } = useContext(UserContext); // Use useContext to access user
@@ -48,7 +49,19 @@ const NavBar = () => {
       navigate("/login");
     }
   };
-
+  const loginClick = () => {
+    navigate("/login");
+  };
+  const logout = async () => {
+    try {
+      await instance.get(`/api/login/logout`);
+      document.cookie =
+        "user_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie =
+        "user_email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      window.location.reload();
+    } catch (err) {}
+  };
   return (
     <NavBarContainer>
       <Logo>
@@ -75,12 +88,21 @@ const NavBar = () => {
           </MenuIcon>
           <span>Q&A</span>
         </MenuItem>
-        <MenuItem>
-          <MenuIcon>
-            <FaInfoCircle />
-          </MenuIcon>
-          <span>사이트 소개</span>
-        </MenuItem>
+        {user ? (
+          <MenuItem onClick={logout}>
+            <MenuIcon>
+              <FaInfoCircle />
+            </MenuIcon>
+            <span>로그아웃</span>
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={loginClick}>
+            <MenuIcon>
+              <FaInfoCircle />
+            </MenuIcon>
+            <span>로그인</span>
+          </MenuItem>
+        )}
       </MenuItemContainer>
       <UserProfile>
         <FaUserCircle size={40} />

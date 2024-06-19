@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import SearchBar from "../../component/common/SearchBar";
 import * as S from './boardStyle';
-import axios from 'axios';
+import instance from '../../axios/instance';
 
 const Board = () => {
   const navigate = useNavigate();
@@ -27,11 +27,11 @@ const Board = () => {
       const type = activeTab === 'freeBoard' ? 'general' : 'question';
       const api_id = null;
 
-      let url = `http://localhost:8080/api/forums?type=${type}&page=${currentPage}`;
+      let url = `/api/forums?type=${type}&page=${currentPage}`;
       if (type === 'question' && api_id) url += `&api_id=${api_id}`;
 
       try {
-        const response = await axios.get(url);
+        const response = await instance.get(url);
         if (response.data.code === 200) {
           setPosts(response.data.result);
           setTotalPages(response.data.totalPages);

@@ -90,7 +90,7 @@ const ApiDetailPage = () => {
     // Fetch questions
     instance.get(`/api/forums?type=question&api_id=${id}`, {
       headers: {
-        Accept: "application/json", // Accept 헤더 추가
+        Accept: "application/json", 
       }
     })
       .then(response => {
@@ -215,11 +215,15 @@ const ApiDetailPage = () => {
           )}
 
           <S.P>해당 API에 달린 질문들 </S.P>
-          <ul>
-            {questions.map((question, index) => (
-              <li key={index}>{question}</li>
-            ))}
-          </ul>
+          {questions.length > 0 ? (
+            <ul>
+              {questions.map((question, index) => (
+                <li key={index}>{question}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>해당 API와 관련된 질문이 없습니다.</p>
+          )}
 
         </S.Endpoint>
       </S.InfoContainer>
