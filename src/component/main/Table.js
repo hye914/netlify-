@@ -4,16 +4,18 @@ import axios from "axios";
 import { StyledTable, Th, Td, TdFavi } from "./Style";
 
 const Table = ({ url, row }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  const defaultFavicon = "/img/hedgehog.png"; 
 
   useEffect(() => {
-    axios
-      .get(url)
-      .then((response) => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await axios.get(url);
+
         if (Array.isArray(response.data.result)) {
           setData(response.data.result);
           console.log("Fetched data:", response.data.result);
@@ -21,15 +23,26 @@ const Table = ({ url, row }) => {
           console.error("Unexpected response data format:", response.data);
           setError("Unexpected response data format.");
         }
+      } catch (error) {
+        if (error.response) {
+          // 서버가 상태 코드를 반환했지만 범위가 2xx가 아님
+          console.error("서버 응답 오류:", error.response);
+          setError(`서버 오류: ${error.response.status} ${error.response.statusText}`);
+        } else if (error.request) {
+          // 요청이 만들어졌으나 응답을 받지 못함
+          console.error("응답을 받지 못했습니다:", error.request);
+          setError("서버에서 응답을 받지 못했습니다. 네트워크 상태를 확인해 주세요.");
+        } else {
+          // 요청 설정 중에 오류가 발생
+          console.error("요청 오류:", error.message);
+          setError(`요청 오류: ${error.message}`);
+        }
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("데이터를 가져오는 중 오류 발생:", error);
-        setError(
-          "서버에서 데이터를 불러오는 데 실패했습니다. 나중에 다시 시도해 주세요."
-        );
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, [url]);
 
   if (loading) {
@@ -37,17 +50,8 @@ const Table = ({ url, row }) => {
   }
 
   if (error) {
-    return (
-      <div>
-        <p>{error}</p>
-        <pre>{error.toString()}</pre>
-      </div>
-    );
+    return <div>데이터를 가져오는 중 오류가 발생했습니다: {error}</div>;
   }
-
-  const handleRowClick = (id) => {
-    navigate(`/api-details/${id}`);
-  };
 
   return (
     <StyledTable>

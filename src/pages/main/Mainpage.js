@@ -22,12 +22,12 @@ const MainPage = () => {
       <S.TableWrapper>
         
         <Table
-          url="http://localhost:8080/api/list/top?type=likes"
+          url="https://dochiapi.shop/api/list/top?type=likes"
           row="좋아요 수"
         />
 
         <Table
-          url="http://localhost:8080/api/list/top?type=views"
+          url="https://dochiapi.shop/api/list/top?type=views"
           row="조회 수"
         />
       </S.TableWrapper>
