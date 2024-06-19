@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../axios/api";
+import instance from "../../axios/instance";
 import { StyledTable, Th, Td, TdFavi } from "./Style";
 
 const Table = ({ url, row }) => {
@@ -18,7 +18,7 @@ const Table = ({ url, row }) => {
       console.log("Request URL:", url); 
 
       try {
-        const response = await api.get(url);
+        const response = await instance.get(url);
         setData(response.data.result);
         console.log("Fetched data:", response.data.result);
       } catch (error) {
