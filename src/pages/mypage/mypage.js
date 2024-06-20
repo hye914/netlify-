@@ -16,11 +16,6 @@ const MyPage = () => {
   const [general, setGeneral] = useState([]);
   const [error, setError] = useState(null);
 
-  const likeEndpoint = `/api/like/list?user_id=${userId}`;
-  const enrollEndpoint = `/api/list?user_id=${userId}`;
-  const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
-  const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -31,6 +26,16 @@ const MyPage = () => {
         setError("An error occurred while fetching data");
       }
     };
+
+    const userId = userData.user_id ;
+
+    const likeEndpoint = `/api/like/list?user_id=${userId}`;
+    const enrollEndpoint = `/api/list?user_id=${userId}`;
+    const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
+    const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
+
+
+
 
     const fetchLikedApis = async () => {
       try {
