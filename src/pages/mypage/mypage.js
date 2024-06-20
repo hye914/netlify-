@@ -16,11 +16,6 @@ const MyPage = () => {
   const [general, setGeneral] = useState([]);
   const [error, setError] = useState(null);
 
-  const userId = Cookies.get("user_id");
-  const userEmail = Cookies.get("user_email");
-
-  axios.defaults.withCredentials = true;
-
   const likeEndpoint = `/api/like/list?user_id=${userId}`;
   const enrollEndpoint = `/api/list?user_id=${userId}`;
   const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
@@ -31,6 +26,7 @@ const MyPage = () => {
       try {
         const response = await instance.get(`/api/users`);
         setUserData(response.data.result);
+        console.log(userData);
       } catch (err) {
         setError("An error occurred while fetching data");
       }

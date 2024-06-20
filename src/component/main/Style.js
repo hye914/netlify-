@@ -7,7 +7,7 @@ export const CategoryContainer = styled.div`
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(2, 1fr);
   gap: 16px;
-  padding: 30px 250px;
+  padding: 30px 200px;
   justify-items: center;
   align-items: center;
 `;
@@ -54,7 +54,7 @@ export const BannerContainer = styled.div`
   justify-content: space-between; // 내부 요소들 사이의 간격을 균등하게 조정
   align-items: center;
   margin: 50px auto; 
-  width: 80%; 
+  width: 65%; 
   height: 100px; 
   background: linear-gradient(to left, #3F6CDF, #7B87FF);
 `;
@@ -72,7 +72,7 @@ export const BannerText = styled.div`
   display: flex;
   flex-direction:column;
   align-content:space-between;
-  margin-left:100px; 
+  margin-left:50px; 
   line-height:150%
   h1 {
     font-size: 28px; // 제목 폰트 크기 조정
@@ -94,6 +94,7 @@ export const BannerButton = styled.button`
   padding: 15px 25px; // 버튼 패딩 조정
   border-radius: 50px;
   cursor: pointer;
+  margin-top:100px;
   font-size: 18px; // 폰트 크기 조정
   transition: background-color 0.3s ease;
   &:hover {

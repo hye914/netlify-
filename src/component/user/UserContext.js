@@ -1,7 +1,7 @@
 // ./component/user/UserContext.js
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import axios from 'axios';
+import instance from "../../axios/instance";
 
 export const UserContext = createContext();
 
@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
     } else {
       const fetchUserProfile = async () => {
         try {
-          const response = await axios.get('http://localhost:8080/api/users');
+          const response = await instance.get('/api/users');
           if (response.data.code === 200) {
             setUser(response.data.result);
             Cookies.set('user_id', response.data.result.user_id, { expires: 7 });

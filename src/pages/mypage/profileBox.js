@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as S from "./Style";
 import { FaUserCircle } from "react-icons/fa";
-import axios from "axios";
+import instance from "../../axios/instance";
 
 const ProfileBox = ({ userData }) => {
   const [totalItems, setTotalItems] = useState(0);
@@ -12,8 +12,8 @@ const ProfileBox = ({ userData }) => {
   useEffect(() => {
     const fetchTotalItems = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/list?user_id=${user_id}`
+        const response = await instance.get(
+          `/api/list?user_id=${user_id}`
         );
         setTotalItems(response.data.totalItems);
       } catch (error) {
@@ -23,8 +23,8 @@ const ProfileBox = ({ userData }) => {
 
     const fetchTotalQuestions = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/forums?type=question&user_id=${user_id}`
+        const response = await instance.get(
+          `/api/forums?type=question&user_id=${user_id}`
         );
         setTotalQuestions(response.data.totalItems);
       } catch (error) {
@@ -34,8 +34,8 @@ const ProfileBox = ({ userData }) => {
 
     const fetchTotalAnswers = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/question/comment?user_id=${user_id}`
+        const response = await instance.get(
+          `/api/question/comment?user_id=${user_id}`
         );
         setTotalAnswers(response.data.totalItems);
       } catch (error) {

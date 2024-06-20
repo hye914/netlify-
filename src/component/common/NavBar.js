@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react"; // Import useContext
 import axios from "axios";
 import Cookies from "js-cookie";
-import instance from "../../axios/instance";
 import {
   NavBarContainer,
   MenuItem,
@@ -54,14 +53,13 @@ const NavBar = () => {
   };
   const logout = async () => {
     try {
-      await instance.get(`/api/login/logout`);
+      await axios.get(`http://localhost:8080/api/login/logout`);
       document.cookie =
         "user_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie =
         "user_email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      
-    } catch (err) {}window.location.reload();
-    navigate("/");
+      window.location.reload();
+    } catch (err) {}
   };
   return (
     <NavBarContainer>
