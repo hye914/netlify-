@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import SearchBar from "../../component/common/SearchBar";
 import * as S from './readFreeStyle';
 import instance from '../../axios/instance';
+import { UserContext } from '../../component/user/UserContext';
 
 const ReadFree = () => {
+  const userContext = useContext(UserContext);
+
   const { postId } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
@@ -15,7 +18,10 @@ const ReadFree = () => {
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 5;
-  const userId = Cookies.get('user_id');
+
+  const { user: userData } = useContext(UserContext);
+  const userId = userData?.user_id;
+
   const Admin_account = Cookies.get('Admin_account');
 
   useEffect(() => {
@@ -30,6 +36,7 @@ const ReadFree = () => {
         const response = await instance.get(`/api/general?forum_id=1&general_id=${postId}`);
         if (response.data.code === 200) {
           setPost(response.data.result);
+          console.log(post);
         } else {
           console.error('Error:', response.data.message);
         }
@@ -185,8 +192,8 @@ const ReadFree = () => {
   };
 
   return (
-    <S.AppContainer>
-      <S.MainContentWrapper>
+    <S.Container>
+
         <SearchBar />
         <S.MainContent>
           <S.PostContainer>
@@ -202,7 +209,7 @@ const ReadFree = () => {
             <S.PostContentBox>
               <p>{post.content}</p>
             </S.PostContentBox>
-            {(userId === post.user_id || Admin_account === '1') && (
+            {(userId == post.user_id || Admin_account === '1') && (
               <S.PostActions>
                 <button onClick={handleEditPost}>수정</button>
                 <button onClick={handleDeletePost}>삭제</button>
@@ -270,8 +277,7 @@ const ReadFree = () => {
             </S.CommentsSection>
           </S.PostContainer>
         </S.MainContent>
-      </S.MainContentWrapper>
-    </S.AppContainer>
+    </S.Container>
   );
 };
 

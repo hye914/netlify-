@@ -7,7 +7,7 @@ export const AppContainer = styled.div`
 
 export const MainContentWrapper = styled.div`
   width: 100%;
-  margin-left: 10px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,12 +21,19 @@ export const MainContent = styled.div`
   margin-left: 360px;
 `;
 
+export const Container = styled.div`
+  background-color: rgb(245, 245, 251);
+  width: 84vw;
+  min-height: 100vh;
+`;
+
 export const Tabs = styled.div`
-  width: 100%;
-  display: flex;
-  max-width: 1500px;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  width: 78.5%;
+    display: flex;
+    max-width: 1500px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-left: 120px;
 `;
 
 export const TabButton = styled.button`
@@ -56,9 +63,10 @@ export const WriteButton = styled.button`
 `;
 
 export const PostsList = styled.div`
-  width: 80%;
+  width: 95%;
   min-height: 630px;
-  margin-top: 20px;
+  margin-top: 30px;
+  margin-left: 120px;
 `;
 
 export const PostItem = styled.div`
@@ -72,6 +80,7 @@ export const PostItem = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
   transition: transform 0.2s, box-shadow 0.2s;
+  width:80%;
 
   &:hover {
     transform: translateY(-5px);
@@ -94,6 +103,10 @@ export const PostItem = styled.div`
     color: #777;
   }
 `;
+export const Margin=styled.div`
+margin-left: auto;
+margin-right: auto;
+`
 
 export const PostDetails = styled.div`
   text-align: right;
@@ -107,10 +120,11 @@ export const PostDetails = styled.div`
 `;
 
 export const Pagination = styled.div`
-  width: 80%;
+  width: 90%;
   margin-top: 20px;
   display: flex;
   justify-content: center;
+  padding-bottom: 50px;
 `;
 
 export const PaginationButton = styled.button`

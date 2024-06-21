@@ -28,7 +28,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/allresult" element={<SearchResultPage />} />
-              <Route path="/api-details/:id" element={<ApiDetailPage />} />
+              <Route path="/api-details/:apiId" element={<ApiDetailPage />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/login" element={<Login />} />

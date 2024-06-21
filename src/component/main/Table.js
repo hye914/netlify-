@@ -11,18 +11,16 @@ const Table = ({ url, row }) => {
   const defaultFavicon = "/img/hedgehog.png"; 
 
   useEffect(() => {
-
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       console.log("Request URL:", url); 
       console.log(instance); 
       try {
-        const response = await instance.get(url,{
+        const response = await instance.get(url, {
           withCredentials: true
-        })
+        });
         setData(response.data.result);
-        console.log("Fetched data:", response.data.result);
       } catch (error) {
         console.error("데이터를 가져오는 중 오류 발생:", error);
         console.log(error.response);
@@ -30,13 +28,10 @@ const Table = ({ url, row }) => {
         let errorMessage = "서버에서 데이터를 불러오는 데 실패했습니다. 나중에 다시 시도해 주세요.";
 
         if (error.response) {
-          // 서버가 응답했지만 상태 코드가 2xx 범위를 벗어나는 경우
           errorMessage += ` (HTTP ${error.response.status}: ${error.response.statusText})`;
         } else if (error.request) {
-          // 요청이 만들어졌지만 응답을 받지 못한 경우
           errorMessage += " (서버에서 응답이 없습니다.)";
         } else {
-          // 요청을 설정하는 중에 오류가 발생한 경우
           errorMessage += ` (요청 오류: ${error.message})`;
         }
 
@@ -48,7 +43,6 @@ const Table = ({ url, row }) => {
 
     fetchData();
   }, [url]);
-
 
   if (loading) {
     return <div>로딩 중...</div>;
@@ -65,6 +59,17 @@ const Table = ({ url, row }) => {
 
   const handleRowClick = (id) => {
     navigate(`/api-details/${id}`);
+  };
+
+  const getRowValue = (item) => {
+    switch (row) {
+      case "좋아요 수":
+        return item.likes;
+      case "조회 수":
+        return item.views;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -88,13 +93,13 @@ const Table = ({ url, row }) => {
               />
               <Td>{item.name}</Td>
               <Td>{item.category}</Td>
-              <Td>{item.likes}</Td>
+              <Td>{getRowValue(item)}</Td>
               <Td>{item.pricepolicy}</Td>
             </tr>
           ))
         ) : (
           <tr>
-            <Td colSpan="4">데이터가 없습니다</Td>
+            <Td colSpan="5">데이터가 없습니다</Td>
           </tr>
         )}
       </tbody>
@@ -103,5 +108,3 @@ const Table = ({ url, row }) => {
 };
 
 export default Table;
-
-

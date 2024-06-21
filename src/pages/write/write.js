@@ -122,9 +122,8 @@ const WriteBoard = () => {
   };
 
   return (
-    <S.AppContainer>
-      <S.MainContentWrapper>
-        <SearchBar />
+    <S.BContainer>
+      <SearchBar />
         <S.MainContent>
           <S.Container>
             <S.TitleInput type="text" placeholder="제목" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -148,8 +147,7 @@ const WriteBoard = () => {
             <S.SubmitButton onClick={handleSubmit}>{isEditMode ? '수정' : '등록'}</S.SubmitButton>
           </S.Container>
         </S.MainContent>
-      </S.MainContentWrapper>
-    </S.AppContainer>
+    </S.BContainer>
   );
 };
 

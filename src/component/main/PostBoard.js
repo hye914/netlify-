@@ -9,7 +9,6 @@ const PostBoard2 = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
   useEffect(() => {
     instance
       .get("/api/forums/top?type=question")

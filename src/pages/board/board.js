@@ -84,10 +84,8 @@ const Board = () => {
   };
 
   return (
-    <S.AppContainer>
-      <S.MainContentWrapper>
-        <SearchBar />
-        <S.MainContent>
+    <S.Container>
+      <SearchBar />
           <S.Tabs>
             <div>
               <S.TabButton active={activeTab === 'freeBoard'} onClick={() => handleTabChange('freeBoard')}>
@@ -107,9 +105,7 @@ const Board = () => {
               </S.PaginationButton>
             ))}
           </S.Pagination>
-        </S.MainContent>
-      </S.MainContentWrapper>
-    </S.AppContainer>
+       </S.Container>
   );
 };
 

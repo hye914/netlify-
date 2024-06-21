@@ -15,14 +15,13 @@ export const MainContentWrapper = styled.div`
 `;  
 
 export const MainContent = styled.div`
-  width: 120%;
+  width: 81vw;
   padding: 20px;
   background-color: rgb(245, 245, 251 );
-  margin-left: 360px;
 `;
 
 export const Container = styled.div`
-  width: 100%;
+  width: 85%;
   max-width: 1400px;
   background-color: #FFFFFF;
   padding: 40px;
@@ -33,6 +32,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid #8A94FF;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 export const TitleInput = styled.input`
@@ -64,7 +65,7 @@ export const ApiNameInput = styled.input`
 `;
 
 export const ContentInput = styled.textarea`
-  width: 80%;
+  width: 95%;
   height: 400px;
   margin-bottom: 20px;
   padding: 15px;
@@ -100,7 +101,7 @@ export const BoardTypeButton = styled.button`
 `;
 
 export const SubmitButton = styled.button`
-  align-self: flex-start;
+  align-self: flex-end;
   padding: 10px 20px;
   background-color: #5060FF;
   color: white;
@@ -112,4 +113,10 @@ export const SubmitButton = styled.button`
   &:hover {
     background-color: #4050D4;
   }
+`;
+
+export const BContainer = styled.div`
+  background-color: rgb(245, 245, 251);
+  width: 84vw;
+  min-height: 100vh;
 `;

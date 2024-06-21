@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const userContext = useContext(UserContext); // Use useContext to access setUser
+  const userContext = useContext(UserContext); 
 
   // 로그 추가
   console.log('UserContext:', userContext);

@@ -9,7 +9,7 @@ export const Container = styled.div`
 
 export const Profile = styled.div`
   background-color: white;
-  width: 26%;
+  width: 30%;
   height: fit-content;
   margin-left: 120px;
   margin-top: 50px;
@@ -115,16 +115,19 @@ export const ApiBoxHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+
 `;
 
 export const ForumContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 100px 120px 0px 100px;
+  width:87%;
+ margin-top: 70px;
+ margin-left: 120px;
 `;
 
 export const ForumBox = styled.div`
-  width: 45%;
+  width: 40%;
   height: fit-content;
   padding: 10px 30px;
   background-color: white;

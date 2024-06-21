@@ -108,8 +108,9 @@ export const BannerButton = styled.button`
 export const BoardContainer=styled.div`
   display: flex;
   flex-direction: column;
-  background-color: pink;
   width:46%;
+  max-width:650px;
+
 `;
 
 export const Board = styled.div`
@@ -152,7 +153,7 @@ export const Header = styled.div`
 //Table에 있는 css
 
 export const StyledTable = styled.table`
-  width: 35%;
+  width: 49%;
   border-collapse: collapse;
   background-color: #f3f4f6;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -160,7 +161,7 @@ export const StyledTable = styled.table`
   overflow: hidden;
   border:1px solid gray;
   font-size: 15px;
-  white-space: nowrap;
+  max-width: 650px;
 `;
 
 export const Th = styled.th`
@@ -168,6 +169,7 @@ export const Th = styled.th`
   color: white;
   font-weight: bold;
   padding: 12px 15px;
+  white-space: nowrap;
 `;
 
 export const Td = styled.td`

@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from "react"; // Import useContext
-import axios from "axios";
-import Cookies from "js-cookie";
 import {
   NavBarContainer,
   MenuItem,
@@ -22,11 +20,13 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 import { redirect, useNavigate } from "react-router-dom";
-import { UserContext } from "../../component/user/UserContext"; // Import UserContext
+import { UserContext } from '../../component/user/UserContext';
 
 const NavBar = () => {
-  const { user } = useContext(UserContext); // Use useContext to access user
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  console.log(user);
 
   const homeClick = () => {
     navigate("/");
@@ -48,19 +48,17 @@ const NavBar = () => {
       navigate("/login");
     }
   };
+
   const loginClick = () => {
     navigate("/login");
   };
 
   const logout = async () => {
     try {
-      await instance.get(`/api/login/logout`);
-      document.cookie =
-        "user_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      document.cookie =
-        "user_email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      window.location.reload();
-    } catch (err) {}
+      setUser(null); // Clear user data
+    } catch (err) {
+      console.error('Error logging out:', err);
+    }
   };
 
   return (
@@ -109,8 +107,8 @@ const NavBar = () => {
         <FaUserCircle size={40} />
         {user ? (
           <div onClick={myClick} style={{ cursor: "pointer" }}>
-            <UserName>{user.user_name}</UserName>
-            <UserStatus>{user.levelpoint}</UserStatus>
+            <UserName>Id :{user.user_id}</UserName>
+            <UserStatus>LevelPoint: {user.levelpoint}</UserStatus>
           </div>
         ) : (
           <div onClick={() => navigate("/login")} style={{ cursor: "pointer" }}>

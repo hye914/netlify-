@@ -15,10 +15,11 @@ export const MainContentWrapper = styled.div`
 `;
 
 export const MainContent = styled.div`
-  width: 120%;
+  width: 80%;
   padding: 20px;
   background-color: rgb(245, 245, 251 );
-  margin-left: 360px;
+  margin-left:auto;
+  margin-right:auto;
 `;
 
 export const PostContainer = styled.div`
@@ -214,4 +215,10 @@ export const PaginationButton = styled.button`
     background-color: #4050d4;
     color: white;
   }
+`;
+
+export const Container = styled.div`
+  background-color: rgb(245, 245, 251);
+  width: 84vw;
+  min-height: 100vh;
 `;

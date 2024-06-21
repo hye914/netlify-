@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import * as S from "./Style";
 import SearchBar from "../../component/common/SearchBar";
 import ProfileBox from "./profileBox";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ApiCard from "../../component/searchResult/ApiCard";
-import Cookies from "js-cookie";
 import instance from "../../axios/instance";
+import { UserContext } from '../../component/user/UserContext';
 
 const MyPage = () => {
-  const [userData, setUserData] = useState(null);
+  const { user: userData } = useContext(UserContext);
+  const userId = userData?.user_id;
+  const navigate = useNavigate();
+
   const [likedApis, setLikedApis] = useState([]);
   const [enrollApis, setEnrollApis] = useState([]);
   const [questions, setQuestions] = useState([]);
@@ -17,25 +19,15 @@ const MyPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await instance.get(`/api/users`);
-        setUserData(response.data.result);
-        console.log(userData);
-      } catch (err) {
-        setError("An error occurred while fetching data");
-      }
-    };
-
-    const userId = userData.user_id ;
+    if (!userId) {
+      navigate('/login');
+      return;
+    }
 
     const likeEndpoint = `/api/like/list?user_id=${userId}`;
     const enrollEndpoint = `/api/list?user_id=${userId}`;
     const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
     const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
-
-
-
 
     const fetchLikedApis = async () => {
       try {
@@ -49,9 +41,9 @@ const MyPage = () => {
     const fetchEnrollApis = async () => {
       try {
         const response = await instance.get(enrollEndpoint);
-        setEnrollApis(response.data.result.slice(0, 4)); // Get only first 4 items
+        setEnrollApis(response.data.result.slice(0, 4));
       } catch (err) {
-        setError("An error occurred while fetching liked APIs");
+        setError("An error occurred while fetching enrolled APIs");
       }
     };
 
@@ -60,43 +52,34 @@ const MyPage = () => {
         const response = await instance.get(generalEndpoint);
         setGeneral(response.data.result.slice(0, 4));
       } catch (err) {
-        setError("An error occurred while fetching general");
+        setError("An error occurred while fetching general posts");
       }
     };
 
     const fetchQuestions = async () => {
       try {
         const response = await instance.get(questionEndpoint);
-        setQuestions(response.data.result.slice(0, 4)); // Get only first 4 items
+        setQuestions(response.data.result.slice(0, 4));
       } catch (err) {
         setError("An error occurred while fetching questions");
       }
     };
 
-    fetchGeneral();
-    fetchUserData();
     fetchLikedApis();
     fetchEnrollApis();
+    fetchGeneral();
     fetchQuestions();
-  }, [
-    likeEndpoint,
-    enrollEndpoint,
-    generalEndpoint,
-    questionEndpoint,
-    userEmail,
-  ]);
-
-  const navigate = useNavigate();
+  }, [userId, navigate]);
 
   const likeApiClick = () => {
     navigate("/allresult", {
-      state: { endpoint: likeEndpoint, resultMessage: "내가 좋아요 누른 API" },
+      state: { endpoint: `/api/like/list?user_id=${userId}`, resultMessage: "내가 좋아요 누른 API" },
     });
   };
 
   const enrollApiClick = () => {
     navigate("/allresult", {
-      state: { endpoint: enrollEndpoint, resultMessage: "내가 등록한 API" },
+      state: { endpoint: `/api/list?user_id=${userId}`, resultMessage: "내가 등록한 API" },
     });
   };
 
@@ -114,17 +97,16 @@ const MyPage = () => {
 
   const generalPostClick = () => {
     navigate("/mypage/postdetail", {
-      state: { endpoint: generalEndpoint },
+      state: { endpoint: `/api/forums?type=general&user_id=${userId}` },
     });
   };
 
   const qnaPostClick = () => {
     navigate("/mypage/postdetail", {
-      state: { endpoint: questionEndpoint },
+      state: { endpoint: `/api/forums?type=question&user_id=${userId}` },
     });
   };
 
-  // 말줄임표
   const truncate = (str, maxLength) => {
     return str.length > maxLength ? str.substring(0, maxLength) + "..." : str;
   };

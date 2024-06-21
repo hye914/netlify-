@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import * as S from "./style";
 import {
@@ -6,10 +6,14 @@ import {
 } from "./style";  
 import SearchBar from "../../component/common/SearchBar";
 import instance from "../../axios/instance";
+import { UserContext } from '../../component/user/UserContext';
 
 const ApiDetailPage = () => {
-  const { id } = useParams();
-  const [userId, setUserId] = useState(null); // userId 상태 추가
+  const { user } = useContext(UserContext); 
+  const userId = user ? user.user_id : null;
+
+  const { apiId } = useParams();
+  console.log("apiId:", apiId);
   const [apiDetail, setApiDetail] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [selected, setSelected] = useState(null);
@@ -18,14 +22,14 @@ const ApiDetailPage = () => {
   const toggleLike = () => {
     const newIsLiked = !isLiked;
     setIsLiked(newIsLiked);
-    
+
     const requestOptions = {
       method: newIsLiked ? 'POST' : 'DELETE',
       headers: { 
         'Content-Type': 'application/json',
-        Accept: "application/json", // Accept 헤더 추가
+        Accept: "application/json",
       },
-      data: JSON.stringify({ user_id: userId, api_id: parseInt(id) }) // userId 사용
+      data: JSON.stringify({ user_id: userId, api_id: parseInt(apiId) })
     };
 
     instance(`/api/like`, requestOptions)
@@ -42,24 +46,14 @@ const ApiDetailPage = () => {
   };
 
   useEffect(() => {
-    // Fetch user ID
-    instance.get(`/api/users`, {
-      headers: {
-        Accept: "application/json", // Accept 헤더 추가
-      }
-    })
-      .then(response => {
-        setUserId(response.data.result.user_id);
-      })
-      .catch(error => {
-        console.error("Error fetching user ID:", error);
-      });
+    if (!apiId) {
+      console.error("apiId is not defined");
+      return;
+    }
 
     // Fetch API details
-    instance.get(`/api/data?api_id=${id}`, {
-      headers: {
-        Accept: "application/json", // Accept 헤더 추가
-      }
+    instance.get(`/api/data?api_id=${apiId}`, {
+      headers: { Accept: "application/json" }
     })
       .then(response => {
         setApiDetail(response.data.data);
@@ -72,12 +66,10 @@ const ApiDetailPage = () => {
     // Fetch like list
     if (userId) {
       instance.get(`/api/like/list?user_id=${userId}`, {
-        headers: {
-          Accept: "application/json", // Accept 헤더 추가
-        }
+        headers: { Accept: "application/json" }
       })
         .then(response => {
-          const likedApi = response.data.result.find(item => item.api_id === parseInt(id));
+          const likedApi = response.data.result.find(item => item.api_id === parseInt(apiId));
           if (likedApi) {
             setIsLiked(true);
           }
@@ -88,10 +80,8 @@ const ApiDetailPage = () => {
     }
 
     // Fetch questions
-    instance.get(`/api/forums?type=question&api_id=${id}`, {
-      headers: {
-        Accept: "application/json", 
-      }
+    instance.get(`/api/forums?type=question&api_id=${apiId}`, {
+      headers: { Accept: "application/json" }
     })
       .then(response => {
         const questionTitles = response.data.result.slice(0, 3).map(question => question.title);
@@ -100,7 +90,7 @@ const ApiDetailPage = () => {
       .catch(error => {
         console.error("Error fetching questions:", error);
       });
-  }, [id, userId]); // userId 추가
+  }, [apiId, userId]);
 
   const handleEndpointClick = (endpoint) => {
     setSelected(endpoint);
@@ -145,7 +135,7 @@ const ApiDetailPage = () => {
   }
 
   return (
-    <Container>
+    <S.Container>
       <SearchBar />
       <S.AboutApi>
         <S.ColDiv>
@@ -224,10 +214,9 @@ const ApiDetailPage = () => {
           ) : (
             <p>해당 API와 관련된 질문이 없습니다.</p>
           )}
-
         </S.Endpoint>
       </S.InfoContainer>
-    </Container>
+    </S.Container>
   );
 };
 
