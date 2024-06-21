@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -5,6 +6,14 @@ import SearchBar from "../../component/common/SearchBar";
 import * as S from './readFreeStyle';
 import instance from '../../axios/instance';
 import { UserContext } from '../../component/user/UserContext';
+=======
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import SearchBar from "../../component/common/SearchBar";
+import * as S from "./readFreeStyle";
+import instance from "../../axios/instance";
+>>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
 
 const ReadFree = () => {
   const userContext = useContext(UserContext);
@@ -14,34 +23,45 @@ const ReadFree = () => {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [showCommentBox, setShowCommentBox] = useState(false);
-  const [newCommentContent, setNewCommentContent] = useState('');
+  const [newCommentContent, setNewCommentContent] = useState("");
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 5;
+<<<<<<< HEAD
 
   const { user: userData } = useContext(UserContext);
   const userId = userData?.user_id;
 
   const Admin_account = Cookies.get('Admin_account');
+=======
+  const userId = Cookies.get("user_id");
+  const Admin_account = Cookies.get("Admin_account");
+>>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
 
   useEffect(() => {
     if (!userId) {
-      alert('로그인이 필요합니다.');
-      navigate('/login');
+      alert("로그인이 필요합니다.");
+      navigate("/login");
       return;
     }
 
     const fetchPost = async () => {
       try {
-        const response = await instance.get(`/api/general?forum_id=1&general_id=${postId}`);
+        const response = await instance.get(
+          `/api/general?forum_id=1&general_id=${postId}`
+        );
         if (response.data.code === 200) {
           setPost(response.data.result);
+<<<<<<< HEAD
           console.log(post);
+=======
+          console.log(response.data.result);
+>>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
         } else {
-          console.error('Error:', response.data.message);
+          console.error("Error:", response.data.message);
         }
       } catch (error) {
-        console.error('Fetch error:', error);
+        console.error("Fetch error:", error);
       }
     };
 
@@ -51,14 +71,16 @@ const ReadFree = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await instance.get(`/api/general/comment?forum_id=1&general_id=${postId}`);
+        const response = await instance.get(
+          `/api/general/comment?forum_id=1&general_id=${postId}`
+        );
         if (response.data.code === 200) {
           setComments(response.data.result);
         } else {
-          console.error('Error:', response.data.message);
+          console.error("Error:", response.data.message);
         }
       } catch (error) {
-        console.error('Fetch error:', error);
+        console.error("Fetch error:", error);
       }
     };
 
@@ -66,21 +88,23 @@ const ReadFree = () => {
   }, [postId]);
 
   const handleEditPost = () => {
-    navigate('/write', { state: { post, type: 'general' } });
+    navigate("/write", { state: { post, type: "general" } });
   };
 
   const handleDeletePost = async () => {
     try {
-      const response = await instance.delete(`/api/general?forum_id=1&general_id=${postId}`);
+      const response = await instance.delete(
+        `/api/general?forum_id=1&general_id=${postId}`
+      );
       if (response.data.code === 200) {
         alert(response.data.message);
-        navigate('/board');
+        navigate("/board");
       } else {
         alert(response.data.message);
       }
     } catch (error) {
-      console.error('Delete error:', error);
-      alert('게시글 삭제 중 오류가 발생했습니다.');
+      console.error("Delete error:", error);
+      alert("게시글 삭제 중 오류가 발생했습니다.");
     }
   };
 
@@ -89,7 +113,7 @@ const ReadFree = () => {
   const toggleCommentBox = () => {
     setShowCommentBox(!showCommentBox);
     setEditingCommentId(null);
-    setNewCommentContent('');
+    setNewCommentContent("");
   };
 
   const handleNewCommentChange = (e) => {
@@ -97,33 +121,39 @@ const ReadFree = () => {
   };
 
   const handleNewCommentSubmit = async () => {
-    if (newCommentContent.trim() === '') {
-      alert('댓글을 입력하세요.');
+    if (newCommentContent.trim() === "") {
+      alert("댓글을 입력하세요.");
       return;
     }
 
     try {
-      const response = await instance.post(`/api/general/comment?forum_id=1&general_id=${postId}`, {
-        user_id: userId,
-        content: newCommentContent,
-      });
+      const response = await instance.post(
+        `/api/general/comment?forum_id=1&general_id=${postId}`,
+        {
+          user_id: userId,
+          content: newCommentContent,
+        }
+      );
 
       if (response.data.code === 201) {
         const newComment = response.data.result;
-        setComments(prevComments => [...prevComments, {
-          ...newComment,
-          user_id: userId,
-          content: newCommentContent,
-          creation_date: new Date().toISOString(),
-        }]);
-        setNewCommentContent('');
+        setComments((prevComments) => [
+          ...prevComments,
+          {
+            ...newComment,
+            user_id: userId,
+            content: newCommentContent,
+            creation_date: new Date().toISOString(),
+          },
+        ]);
+        setNewCommentContent("");
         setShowCommentBox(false);
       } else {
         alert(response.data.message);
       }
     } catch (error) {
-      console.error('Comment submit error:', error);
-      alert('댓글 작성 중 오류가 발생했습니다.');
+      console.error("Comment submit error:", error);
+      alert("댓글 작성 중 오류가 발생했습니다.");
     }
   };
 
@@ -134,43 +164,52 @@ const ReadFree = () => {
   };
 
   const handleCommentUpdate = async () => {
-    if (newCommentContent.trim() === '') {
-      alert('댓글을 입력하세요.');
+    if (newCommentContent.trim() === "") {
+      alert("댓글을 입력하세요.");
       return;
     }
 
     try {
-      const response = await instance.put(`/api/general/comment?comment_id=${editingCommentId}`, {
-        content: newCommentContent,
-      });
+      const response = await instance.put(
+        `/api/general/comment?comment_id=${editingCommentId}`,
+        {
+          content: newCommentContent,
+        }
+      );
 
       if (response.data.code === 200) {
-        setComments(comments.map(comment =>
-          comment.id === editingCommentId ? { ...comment, content: newCommentContent } : comment
-        ));
+        setComments(
+          comments.map((comment) =>
+            comment.id === editingCommentId
+              ? { ...comment, content: newCommentContent }
+              : comment
+          )
+        );
         setEditingCommentId(null);
-        setNewCommentContent('');
+        setNewCommentContent("");
       } else {
         alert(response.data.message);
       }
     } catch (error) {
-      console.error('Update error:', error);
-      alert('댓글 수정 중 오류가 발생했습니다.');
+      console.error("Update error:", error);
+      alert("댓글 수정 중 오류가 발생했습니다.");
     }
   };
 
   const handleCommentDelete = async (commentId) => {
     try {
-      const response = await instance.delete(`/api/general/comment?comment_id=${commentId}`);
+      const response = await instance.delete(
+        `/api/general/comment?comment_id=${commentId}`
+      );
       if (response.data.code === 200) {
-        setComments(comments.filter(comment => comment.id !== commentId));
+        setComments(comments.filter((comment) => comment.id !== commentId));
         alert(response.data.message);
       } else {
         alert(response.data.message);
       }
     } catch (error) {
-      console.error('Delete error:', error);
-      alert('댓글 삭제 중 오류가 발생했습니다.');
+      console.error("Delete error:", error);
+      alert("댓글 삭제 중 오류가 발생했습니다.");
     }
   };
 
@@ -184,9 +223,9 @@ const ReadFree = () => {
   const validateComment = (comment) => {
     if (!comment) return {};
     return {
-      id: comment.id || 'Unknown',
-      user_id: comment.user_id || 'Unknown',
-      content: comment.content || '',
+      id: comment.id || "Unknown",
+      user_id: comment.user_id || "Unknown",
+      content: comment.content || "",
       creation_date: comment.creation_date || new Date().toISOString(),
     };
   };
@@ -209,14 +248,18 @@ const ReadFree = () => {
             <S.PostContentBox>
               <p>{post.content}</p>
             </S.PostContentBox>
+<<<<<<< HEAD
             {(userId == post.user_id || Admin_account === '1') && (
+=======
+            {(userId == post.user_id || Admin_account == "1") && (
+>>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
               <S.PostActions>
                 <button onClick={handleEditPost}>수정</button>
                 <button onClick={handleDeletePost}>삭제</button>
               </S.PostActions>
             )}
             <S.PostActions>
-              <button onClick={() => navigate('/board')}>목록으로</button>
+              <button onClick={() => navigate("/board")}>목록으로</button>
             </S.PostActions>
             <S.CommentsSection>
               <S.CommentsHeader>
@@ -230,16 +273,28 @@ const ReadFree = () => {
                     value={newCommentContent}
                     onChange={handleNewCommentChange}
                   />
-                  <button onClick={handleNewCommentSubmit}>{editingCommentId ? '수정' : '등록'}</button>
+                  <button onClick={handleNewCommentSubmit}>
+                    {editingCommentId ? "수정" : "등록"}
+                  </button>
                 </S.CommentBox>
               )}
               {currentComments.map((comment) => {
                 const validatedComment = validateComment(comment);
                 return (
-                  <S.CommentItem key={validatedComment.id} isAuthor={validatedComment.user_id === post.user_id}>
-                    <S.CommentMeta isAuthor={validatedComment.user_id === post.user_id}>
+                  <S.CommentItem
+                    key={validatedComment.id}
+                    isAuthor={validatedComment.user_id === post.user_id}
+                  >
+                    <S.CommentMeta
+                      isAuthor={validatedComment.user_id === post.user_id}
+                    >
                       <span>작성자: {validatedComment.user_id}</span>
-                      <span>작성일: {new Date(validatedComment.creation_date).toLocaleDateString()}</span>
+                      <span>
+                        작성일:{" "}
+                        {new Date(
+                          validatedComment.creation_date
+                        ).toLocaleDateString()}
+                      </span>
                     </S.CommentMeta>
                     {editingCommentId === validatedComment.id ? (
                       <S.CommentBox>
@@ -252,10 +307,26 @@ const ReadFree = () => {
                     ) : (
                       <>
                         <p>{validatedComment.content}</p>
-                        {(userId === validatedComment.user_id || Admin_account === '1') && (
+                        {(userId === validatedComment.user_id ||
+                          Admin_account === "1") && (
                           <S.CommentActions>
-                            <button onClick={() => handleCommentEdit(validatedComment.id, validatedComment.content)}>수정</button>
-                            <button onClick={() => handleCommentDelete(validatedComment.id)}>삭제</button>
+                            <button
+                              onClick={() =>
+                                handleCommentEdit(
+                                  validatedComment.id,
+                                  validatedComment.content
+                                )
+                              }
+                            >
+                              수정
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleCommentDelete(validatedComment.id)
+                              }
+                            >
+                              삭제
+                            </button>
                           </S.CommentActions>
                         )}
                       </>
