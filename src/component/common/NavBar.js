@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useContext } from "react"; // Import useContext
-<<<<<<< HEAD
-=======
 import axios from "axios";
 import Cookies from "js-cookie";
 import instance from "../../axios/instance";
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
 import {
   NavBarContainer,
   MenuItem,
@@ -61,26 +58,10 @@ const NavBar = () => {
 
   const logout = async () => {
     try {
-<<<<<<< HEAD
-      setUser(null); // Clear user data
+      setUser(null); 
     } catch (err) {
       console.error('Error logging out:', err);
     }
-=======
-      await instance.get(`/api/login/logout`);
-      document.cookie =
-        "user_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      document.cookie =
-        "user_email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      document.cookie =
-        "user_name=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      document.cookie =
-        "levelpoint=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      document.cookie =
-        "admin_account=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      window.location.reload();
-    } catch (err) {}
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
   };
 
   return (
