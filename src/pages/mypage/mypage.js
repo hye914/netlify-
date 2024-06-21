@@ -16,30 +16,27 @@ const MyPage = () => {
   const [general, setGeneral] = useState([]);
   const [error, setError] = useState(null);
 
+  const userId = Cookies.get("user_id");
+  const userEmail = Cookies.get("user_email");
+
+  const likeEndpoint = `/api/like/list?user_id=${userId}`;
+  const enrollEndpoint = `/api/list?user_id=${userId}`;
+  const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
+  const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await instance.get(`/api/users`);
+        const response = await instance.get(`api/users`);
         setUserData(response.data.result);
-        console.log(userData);
       } catch (err) {
         setError("An error occurred while fetching data");
       }
     };
 
-    const userId = userData.user_id ;
-
-    const likeEndpoint = `/api/like/list?user_id=${userId}`;
-    const enrollEndpoint = `/api/list?user_id=${userId}`;
-    const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
-    const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
-
-
-
-
     const fetchLikedApis = async () => {
       try {
-        const response = await instance.get(likeEndpoint);
+        const response = await axios.get(likeEndpoint);
         setLikedApis(response.data.result.slice(0, 4));
       } catch (err) {
         setError("An error occurred while fetching liked APIs");
@@ -48,7 +45,7 @@ const MyPage = () => {
 
     const fetchEnrollApis = async () => {
       try {
-        const response = await instance.get(enrollEndpoint);
+        const response = await axios.get(enrollEndpoint);
         setEnrollApis(response.data.result.slice(0, 4)); // Get only first 4 items
       } catch (err) {
         setError("An error occurred while fetching liked APIs");
@@ -57,7 +54,7 @@ const MyPage = () => {
 
     const fetchGeneral = async () => {
       try {
-        const response = await instance.get(generalEndpoint);
+        const response = await axios.get(generalEndpoint);
         setGeneral(response.data.result.slice(0, 4));
       } catch (err) {
         setError("An error occurred while fetching general");
@@ -66,7 +63,7 @@ const MyPage = () => {
 
     const fetchQuestions = async () => {
       try {
-        const response = await instance.get(questionEndpoint);
+        const response = await axios.get(questionEndpoint);
         setQuestions(response.data.result.slice(0, 4)); // Get only first 4 items
       } catch (err) {
         setError("An error occurred while fetching questions");
