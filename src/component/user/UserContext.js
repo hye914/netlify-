@@ -25,11 +25,8 @@ export const UserProvider = ({ children }) => {
     } else {
       const fetchUserProfile = async () => {
         try {
-<<<<<<< HEAD
-          const response = await instance.get('http://localhost:8080/api/users');
-=======
+
           const response = await instance.get("/api/users");
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
           if (response.data.code === 200) {
             setUser(response.data.result);
             Cookies.set("user_id", response.data.result.user_id, {

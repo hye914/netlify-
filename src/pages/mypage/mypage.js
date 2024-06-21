@@ -27,7 +27,7 @@ const MyPage = () => {
   const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
 
   useEffect(() => {
-<<<<<<< HEAD
+
     if (!userId) {
       navigate('/login');
       return;
@@ -37,7 +37,7 @@ const MyPage = () => {
     const enrollEndpoint = `/api/list?user_id=${userId}`;
     const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
     const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
-=======
+
     const fetchUserData = async () => {
       try {
         const response = await instance.get(`api/users`);
@@ -46,7 +46,6 @@ const MyPage = () => {
         setError("An error occurred while fetching data");
       }
     };
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
 
     const fetchLikedApis = async () => {
       try {
@@ -59,13 +58,9 @@ const MyPage = () => {
 
     const fetchEnrollApis = async () => {
       try {
-<<<<<<< HEAD
         const response = await instance.get(enrollEndpoint);
         setEnrollApis(response.data.result.slice(0, 4));
-=======
-        const response = await axios.get(enrollEndpoint);
-        setEnrollApis(response.data.result.slice(0, 4)); // Get only first 4 items
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
+       
       } catch (err) {
         setError("An error occurred while fetching enrolled APIs");
       }
@@ -82,13 +77,9 @@ const MyPage = () => {
 
     const fetchQuestions = async () => {
       try {
-<<<<<<< HEAD
         const response = await instance.get(questionEndpoint);
         setQuestions(response.data.result.slice(0, 4));
-=======
-        const response = await axios.get(questionEndpoint);
-        setQuestions(response.data.result.slice(0, 4)); // Get only first 4 items
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
+       
       } catch (err) {
         setError("An error occurred while fetching questions");
       }

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -6,14 +5,7 @@ import SearchBar from "../../component/common/SearchBar";
 import * as S from './readFreeStyle';
 import instance from '../../axios/instance';
 import { UserContext } from '../../component/user/UserContext';
-=======
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import SearchBar from "../../component/common/SearchBar";
-import * as S from "./readFreeStyle";
-import instance from "../../axios/instance";
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
+
 
 const ReadFree = () => {
   const userContext = useContext(UserContext);
@@ -27,16 +19,11 @@ const ReadFree = () => {
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const commentsPerPage = 5;
-<<<<<<< HEAD
 
   const { user: userData } = useContext(UserContext);
   const userId = userData?.user_id;
 
   const Admin_account = Cookies.get('Admin_account');
-=======
-  const userId = Cookies.get("user_id");
-  const Admin_account = Cookies.get("Admin_account");
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
 
   useEffect(() => {
     if (!userId) {
@@ -52,11 +39,8 @@ const ReadFree = () => {
         );
         if (response.data.code === 200) {
           setPost(response.data.result);
-<<<<<<< HEAD
           console.log(post);
-=======
-          console.log(response.data.result);
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
+
         } else {
           console.error("Error:", response.data.message);
         }
@@ -248,11 +232,9 @@ const ReadFree = () => {
             <S.PostContentBox>
               <p>{post.content}</p>
             </S.PostContentBox>
-<<<<<<< HEAD
+
             {(userId == post.user_id || Admin_account === '1') && (
-=======
-            {(userId == post.user_id || Admin_account == "1") && (
->>>>>>> 26bb4364b13eeb3e148307802d1169f52dbecd94
+
               <S.PostActions>
                 <button onClick={handleEditPost}>수정</button>
                 <button onClick={handleDeletePost}>삭제</button>
