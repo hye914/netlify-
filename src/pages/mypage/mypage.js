@@ -18,14 +18,6 @@ const MyPage = () => {
   const [general, setGeneral] = useState([]);
   const [error, setError] = useState(null);
 
-  const userId = Cookies.get("user_id");
-  const userEmail = Cookies.get("user_email");
-
-  const likeEndpoint = `/api/like/list?user_id=${userId}`;
-  const enrollEndpoint = `/api/list?user_id=${userId}`;
-  const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
-  const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
-
   useEffect(() => {
 
     if (!userId) {
