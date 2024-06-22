@@ -30,18 +30,10 @@ const MyPage = () => {
     const questionEndpoint = `/api/forums?type=question&user_id=${userId}`;
     const generalEndpoint = `/api/forums?type=general&user_id=${userId}`;
 
-    const fetchUserData = async () => {
-      try {
-        const response = await instance.get(`api/users`);
-        setUserData(response.data.result);
-      } catch (err) {
-        setError("An error occurred while fetching data");
-      }
-    };
-
+   
     const fetchLikedApis = async () => {
       try {
-        const response = await axios.get(likeEndpoint);
+        const response = await instance.get(likeEndpoint);
         setLikedApis(response.data.result.slice(0, 4));
       } catch (err) {
         setError("An error occurred while fetching liked APIs");
@@ -60,7 +52,7 @@ const MyPage = () => {
 
     const fetchGeneral = async () => {
       try {
-        const response = await axios.get(generalEndpoint);
+        const response = await instance.get(generalEndpoint);
         setGeneral(response.data.result.slice(0, 4));
       } catch (err) {
         setError("An error occurred while fetching general posts");
